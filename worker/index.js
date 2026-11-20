@@ -57,7 +57,8 @@ export default {
  async fetch(request,env) {
   const url=new URL(request.url),path=url.pathname;
   if(request.method==="OPTIONS") return new Response(null,{status:204,headers:HEADERS});
-  if(url.origin!== "https://nm-air-solutions-service.nm-air-solutions-service.workers.dev" && request.headers.get("Origin") && request.headers.get("Origin")!==ALLOWED_ORIGIN) return error("Origin not allowed.",403);
+  const origin=request.headers.get("Origin");
+  if(origin && origin!==ALLOWED_ORIGIN) return error("Origin not allowed.",403);
   try {
    if(path==="/health" && request.method==="GET") {
     const check=await env.DB.prepare("SELECT 1 AS ok").first();
