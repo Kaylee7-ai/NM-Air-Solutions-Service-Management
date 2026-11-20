@@ -65,7 +65,7 @@ export default {
    }
    if(path==="/api/setup-status" && request.method==="GET") return json(await setupStatus(env));
    if(path==="/api/setup" && request.method==="POST") {
-    if(!await secureEqual(request.headers.get("X-Setup-Key"),env.SETUP_KEY)) return error("Setup code is incorrect.",403);
+    if(!env.SETUP_KEY || env.SETUP_KEY.length<32 || !await secureEqual(request.headers.get("X-Setup-Key"),env.SETUP_KEY)) return error("Setup code is incorrect.",403);
     const state=await setupStatus(env);
     if(!state.setup_required) return error("Initial owner setup has already been completed.",409);
     const d=await readBody(request),name=clean(d.full_name,100),email=clean(d.email,160).toLowerCase(),password=String(d.password||"");
