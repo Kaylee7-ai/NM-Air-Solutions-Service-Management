@@ -18,7 +18,7 @@ jobs:
           node-version: 22
       - name: Check Worker JavaScript syntax
         run: node --check worker/index.js
-      - name: Extract and check website JavaScript
+      - name: Smoke test deployed Cloudflare API\n        run: |\n          curl --fail --silent --show-error https://nm-air-service-api.nm-air-solutions-service.workers.dev/health\n          curl --fail --silent --show-error https://nm-air-service-api.nm-air-solutions-service.workers.dev/api/setup-status\n      - name: Extract and check website JavaScript
         run: |
           node - <<'NODE'
           const fs = require('node:fs');
