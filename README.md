@@ -67,4 +67,4 @@ Staff accounts are created by the owner. Use unique passwords of at least 12 cha
 
 ## Local development
 
-The Worker source is in `worker/index.js`. The SQL migration is in `worker/migrations/0001_initial.sql`. The deployed Worker currently uses a D1 binding named `DB` and a secret binding named `SETUP_KEY`.
+The Worker source is in `worker/index.js`. The SQL migration is in `worker/migrations/0001_initial.sql`. The deployed Worker uses a D1 binding named `DB`. Add the `SETUP_KEY` secret in the Cloudflare dashboard before first-owner setup.
