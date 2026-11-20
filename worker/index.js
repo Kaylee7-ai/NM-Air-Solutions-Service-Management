@@ -71,7 +71,8 @@ export default {
     if(!state.setup_required) return error("Initial owner setup has already been completed.",409);
     const d=await readBody(request),name=clean(d.full_name,100),email=clean(d.email,160).toLowerCase(),password=String(d.password||"");
     if(name.length<2 || !emailOK(email) || password.length<12) return error("Enter a valid name and email. Password must contain at least 12 characters.");
-    await env.DB.prepare("INSERT INTO users(id,email,full_name,phone,password_hash,role) VALUES(?,?,?,?,?,'owner')").bind(uuid(),email,name,clean(d.phone,30),await passwordHash(password)).run();
+    const created=await env.DB.prepare("INSERT INTO users(id,email,full_name,phone,password_hash,role) SELECT ?,?,?,?,?, 'owner' WHERE NOT EXISTS (SELECT 1 FROM users)").bind(uuid(),email,name,clean(d.phone,30),await passwordHash(password)).run();
+    if(!created.meta?.changes) return error("Initial owner setup has already been completed.",409);
     return json({ok:true,message:"Owner account created. You can now sign in."},201);
    }
    if(path==="/api/login" && request.method==="POST") {
@@ -92,7 +93,7 @@ export default {
     const date=clean(d.date,10),unit=clean(d.unit,80),details=clean(d.details,2000);
     if(name.length<2||phone.length<7||!service||location.length<3) return error("Please provide your name, phone number, service and location.");
     if(date && !/^\d{4}-\d{2}-\d{2}$/.test(date)) return error("Please enter a valid preferred date.");
-    const id="NM-"+new Date().toISOString().slice(2,10).replace(/-/g,"")+"-"+hex(3).slice(0,6).toUpperCase();
+    const id="NM-"+new Date().toISOString().slice(2,10).replace(/-/g,"")+"-"+hex(8).toUpperCase();
     await env.DB.prepare("INSERT INTO service_requests(id,customer_name,customer_phone,service_type,location,preferred_date,ac_type,details) VALUES(?,?,?,?,?,?,?,?)").bind(id,name,phone,service,location,date||null,unit||null,details).run();
     await log(env,id,null,"Request submitted","Customer submitted a service request.");
     return json({ok:true,reference:id,status:"New"},201);
