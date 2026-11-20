@@ -11,3 +11,10 @@
 .glow-reveal.is-visible{opacity:1;transform:translateY(0)}
 .btn:focus-visible,button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid rgba(255,107,94,.8);outline-offset:3px}
 @media(prefers-reduced-motion:reduce){.glow-reveal{opacity:1;transform:none;transition:none}.glow-card,.glow-card:hover{transition:none;transform:none}.glow-surface::after{display:none}*{scroll-behavior:auto!important}}
+
+/* Refined coral lighting tuned to the site's navy / cream palette */
+:root{--glow-coral:rgba(242,109,91,.16);--glow-blue:rgba(94,125,169,.14)}
+.glow-surface::after{opacity:.58}
+.glow-card:hover{box-shadow:0 18px 38px rgba(22,33,54,.11),0 0 24px rgba(242,109,91,.07);border-color:rgba(242,109,91,.34)}
+.btn.lime:hover,.dash-launch:hover{box-shadow:0 12px 30px rgba(242,109,91,.24),0 0 22px rgba(242,109,91,.12)}
+@media(prefers-reduced-motion:reduce){.glow-reveal{opacity:1;transform:none}}
