@@ -21,7 +21,8 @@ jobs:
       - name: Smoke test deployed Cloudflare API
         run: |
           curl --fail --silent --show-error https://nm-air-service-api.nm-air-solutions-service.workers.dev/health
-          curl --fail --silent --show-error https://nm-air-service-api.nm-air-solutions-service.workers.dev/api/setup-status\n      - name: Extract and check website JavaScript
+          curl --fail --silent --show-error https://nm-air-service-api.nm-air-solutions-service.workers.dev/api/setup-status
+      - name: Extract and check website JavaScript
         run: |
           node - <<'NODE'
           const fs = require('node:fs');
